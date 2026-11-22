@@ -1,5 +1,7 @@
 export default {
     async fetch(request) {
+        console.info({ message: 'CORS proxy Worker received a request!' });
+
         const corsHeaders = {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
@@ -43,10 +45,14 @@ export default {
         }
         reqs.proxy = async () => {
           let href = "${PROXY_ENDPOINT}?apiurl=${API_URL}"
+          console.info({ message: href });
+          console.info({ message: window.location.origin + href });
           return fetch(window.location.origin + href).then(r => r.json())
         }
         reqs.proxypreflight = async () => {
           let href = "${PROXY_ENDPOINT}?apiurl=${API_URL}"
+          console.info({ message: href });
+          console.info({ message: window.location.origin + href });
           let response = await fetch(window.location.origin + href, {
             method: "POST",
             headers: {
